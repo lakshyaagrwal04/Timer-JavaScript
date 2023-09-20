@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./task-css.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@icon/themify-icons@1.0.1-alpha.3/themify-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="head">
+        <div class="h-left">
+          <div class="head-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 512 512"
+            >
+              <style>
+                svg {
+                  fill: #ffffff;
+                }
+              </style>
+              <path
+                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+              />
+            </svg>
+            Timer
+          </div>
+        </div>
+        <div class="h-right">
+          <div class="head-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 448 512"
+            >
+              <style>
+                svg {
+                  fill: #ffffff;
+                }
+              </style>
+              <path
+                d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm64 192c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm64-64c0-17.7 14.3-32 32-32s32 14.3 32 32V352c0 17.7-14.3 32-32 32s-32-14.3-32-32V160zM320 288c17.7 0 32 14.3 32 32v32c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32z"
+              />
+            </svg>
+            Report
+          </div>
+          <div class="head-icon"><i class="fa fa-gear"></i>Setting</div>
+          <div class="head-icon"><i class="fa fa-solid fa-user"></i>Login</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Timer Section -->
+    
+    <section class="section2">
+      <div class="timeline-heading">
+        <div id="timer" class="btn2" onclick="timeset(25,0);">Timer</div>
+        <div id="shortTimer" class="btn2" onclick="timeset(5,0);">Short Timer</div>
+        <div id="longTimer" class="btn2" onclick="timeset(55,0);">Long Timer</div>
+      </div>
+
+      <!-- Main Time Display Area -->
+
+      <div class="time-center">
+        <div id="min">00:00</div>
+      </div>
+      <button class="time-end btn" id="ssbtn" onclick="timex();">START</button>
+    </section>
+
+    <!-- TO DO List -->
+
+    <section class="section3">
+      <div class="sec-task-add">
+        <h4 class="task-head">Task</h4>
+        <input type="text" class=" task-input" id="taskInput"/>
+        <div class="btn task-add" onclick="addTask();">ADD</div>
+      </div>
+      <div class="task-show">
+        <table id="table">
+          
+        </table>
+      </div>
+    </section>
+
+
+    <!-- JavaScript -->
+    <script>
+      // Timer Section
+        
+      const ssbtn = document.getElementById('ssbtn');
+      var a = document.getElementById('min');
+      var minutes;
+      var seconds;
+
+      ssbtn.disabled=true;
+
+        function timeset(m,s){
+          a.innerHTML=(m < 10 ? "0" + m : m)+":"+ (s < 10 ? "0" + s : s);
+          minutes = m;
+          seconds = s;
+          ssbtn.disabled=false;
+        }
+        
+        var started = false;
+        
+        function timex(){
+            if(!started){
+                myTimer = setInterval(timer,1000);
+                ssbtn.innerText="STOP";
+                started= true;
+            }else{
+                clearInterval(myTimer);
+                ssbtn.innerText="START";
+                started= false;
+            }
+        }
+        
+        function timer(){
+          
+          a.innerHTML =(minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+          if (seconds > 0) {
+              seconds--;
+          }else{
+            if(minutes > 0) {
+              minutes--;
+              seconds = 59;
+            }else{
+              clearInterval(myTimer)
+              ssbtn.innerText="START";
+              started= false;
+              minutes = 25;
+              seconds = 0;
+            }
+          }
+        }
+
+
+        // For TO DO List
+        index = 1;
+        var addRow = document.getElementById('table');
+        var TaskInput = document.getElementById('taskInput');
+        function addTask(){
+          
+          addRow.innerHTML += "<tr id='tr"+index+"' class='tr'><td id='taskName' class='taskName'>"+TaskInput.value+"</td><td id='delbtn' class='del-btn' onclick='removeTask("+index+");''>DELETE</td></tr>";
+          index++;
+          TaskInput.value="";
+        }
+        
+      function removeTask(z){
+        var rows = document.getElementById('tr'+z);
+        rows.remove();
+      }
+    </script>
+  </body>
+</html>
